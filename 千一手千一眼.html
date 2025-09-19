@@ -29,12 +29,27 @@
             width: 100vw;
             height: auto;
             object-fit: cover;
+            /* 고해상도 디스플레이 최적화 */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             image-rendering: pixelated;
+            image-rendering: auto;
+            image-rendering: optimizeQuality;
+            /* GPU 가속 활성화 */
             -webkit-backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
+            /* 모바일 화질 개선 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* 부드러운 렌더링 */
+            -webkit-filter: none;
+            filter: none;
+            /* 픽셀 정렬 최적화 */
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: crisp-edges;
+            /* 고해상도 지원 */
+            image-rendering: high-quality;
         }
 
         .back-button {
