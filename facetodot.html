@@ -74,11 +74,11 @@
             -webkit-transform: translateZ(0);
             /* 이미지 로딩 최적화 */
             image-rendering: auto;
-            /* 지연 로딩을 위한 초기 숨김 */
+            /* 웹 호스팅 환경에서 안정적인 표시 */
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
-
+        
         .image-content.loaded {
             opacity: 1;
         }
@@ -144,7 +144,7 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="김동규1.jpg" alt="김동규1" class="image-content" loading="lazy">
+        <img src="김동규1.jpg" alt="김동규1" class="image-content" loading="eager" onload="this.style.opacity=1" onerror="console.log('이미지 로딩 실패:', this.src)">
         <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
             <source src="김동규2.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -163,28 +163,43 @@
             }
         });
 
-        // 이미지 지연 로딩 및 페이드인 효과
-        function loadImages() {
-            const images = document.querySelectorAll('.image-content');
-            let loadedCount = 0;
-            const totalImages = images.length;
-
-            images.forEach((img, index) => {
-                img.addEventListener('load', function() {
-                    loadedCount++;
-                    this.classList.add('loaded');
-                });
-
-                img.addEventListener('error', function() {
-                    console.log('이미지 로딩 실패:', this.src);
-                    loadedCount++;
-                });
+        // 이미지 로딩 확인 및 표시
+        function ensureImageLoads() {
+            const img = document.querySelector('.image-content');
+            
+            // 이미지가 이미 로드된 경우
+            if (img.complete && img.naturalHeight !== 0) {
+                img.classList.add('loaded');
+                return;
+            }
+            
+            // 이미지 로드 이벤트 리스너
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+                console.log('김동규1 이미지 로드 완료');
             });
+            
+            img.addEventListener('error', function() {
+                console.log('김동규1 이미지 로딩 실패:', this.src);
+                // 재시도
+                setTimeout(() => {
+                    this.src = this.src + '?t=' + Date.now();
+                }, 1000);
+            });
+            
+            // 타임아웃 설정 (5초 후 강제 표시)
+            setTimeout(() => {
+                if (!img.classList.contains('loaded')) {
+                    img.classList.add('loaded');
+                    console.log('이미지 로딩 타임아웃 - 강제 표시');
+                }
+            }, 5000);
         }
 
         // 비디오 자동재생 보장 및 모바일 최적화
         document.addEventListener('DOMContentLoaded', function() {
-            loadImages();
+            ensureImageLoads();
+            
             const video = document.querySelector('video');
             
             // 모바일에서 비디오 최적화
