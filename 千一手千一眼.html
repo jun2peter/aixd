@@ -30,27 +30,30 @@
             height: auto;
             object-fit: cover;
             display: block;
-            /* 고해상도 이미지 최적화 */
-            image-rendering: auto;
-            image-rendering: optimizeQuality;
-            /* GPU 가속 활성화 */
-            -webkit-backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
+            /* 성능 최적화 */
+            will-change: transform;
             transform: translateZ(0);
-            /* 부드러운 렌더링 */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            /* 필터 최적화 */
-            -webkit-filter: none;
-            filter: none;
-            /* 브라우저별 최적화 */
-            -webkit-image-rendering: optimizeQuality;
-            -moz-image-rendering: optimizeQuality;
-            -ms-image-rendering: optimizeQuality;
-            /* 고해상도 디스플레이 지원 */
-            image-rendering: -webkit-optimize-contrast;
-            /* 픽셀 정렬 최적화 */
-            image-rendering: crisp-edges;
+            -webkit-transform: translateZ(0);
+            /* 이미지 로딩 최적화 */
+            image-rendering: auto;
+            /* 지연 로딩을 위한 초기 숨김 */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-content.loaded {
+            opacity: 1;
+        }
+
+        /* 로딩 인디케이터 */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+            font-size: 18px;
+            z-index: 1000;
         }
 
         .back-button {
@@ -75,12 +78,14 @@
 <body>
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
+    <div class="loading" id="loading">로딩 중...</div>
+    
     <div class="container">
-        <img src="박승준1.jpg" alt="박승준1" class="image-content">
-        <img src="박승준2.jpg" alt="박승준2" class="image-content">
-        <img src="박승준3.jpg" alt="박승준3" class="image-content">
-        <img src="박승준4.jpg" alt="박승준4" class="image-content">
-        <img src="박승준5.jpg" alt="박승준5" class="image-content">
+        <img src="박승준1.jpg" alt="박승준1" class="image-content" loading="lazy">
+        <img src="박승준2.jpg" alt="박승준2" class="image-content" loading="lazy">
+        <img src="박승준3.jpg" alt="박승준3" class="image-content" loading="lazy">
+        <img src="박승준4.jpg" alt="박승준4" class="image-content" loading="lazy">
+        <img src="박승준5.jpg" alt="박승준5" class="image-content" loading="lazy">
     </div>
 
     <script>
@@ -88,9 +93,37 @@
             window.location.href = 'index.html';
         }
 
+        // 이미지 지연 로딩 및 페이드인 효과
+        function loadImages() {
+            const images = document.querySelectorAll('.image-content');
+            const loading = document.getElementById('loading');
+            let loadedCount = 0;
+            const totalImages = images.length;
+
+            images.forEach((img, index) => {
+                img.addEventListener('load', function() {
+                    loadedCount++;
+                    this.classList.add('loaded');
+                    
+                    if (loadedCount === totalImages) {
+                        loading.style.display = 'none';
+                    }
+                });
+
+                img.addEventListener('error', function() {
+                    console.log('이미지 로딩 실패:', this.src);
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                        loading.style.display = 'none';
+                    }
+                });
+            });
+        }
+
         // 페이지 로드 시 맨 위로 스크롤
         window.addEventListener('load', function() {
             window.scrollTo(0, 0);
+            loadImages();
         });
 
         // 키보드 ESC 키로도 뒤로가기 가능
