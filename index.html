@@ -20,33 +20,73 @@
             cursor: pointer;
         }
 
-        #svg-container {
+        .svg-container {
             position: absolute;
             transition: all 0.3s ease;
         }
 
-        #svg-container img {
+        .svg-container img {
             max-width: 200px;
             max-height: 200px;
             width: auto;
             height: auto;
+            /* 고해상도 디스플레이 최적화 */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             image-rendering: pixelated;
+            /* GPU 가속 활성화 */
             -webkit-backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
+            /* 모바일 화질 개선 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* 픽셀 정렬 */
+            image-rendering: auto;
+            image-rendering: optimizeQuality;
+            /* 부드러운 렌더링 */
+            -webkit-filter: none;
+            filter: none;
+        }
+
+        /* 박승준 명함만 크기 키우기 */
+        #svg-container1 img {
+            max-width: 300px;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            /* 고해상도 디스플레이 최적화 */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            /* GPU 가속 활성화 */
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            /* 모바일 화질 개선 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* 픽셀 정렬 */
+            image-rendering: auto;
+            image-rendering: optimizeQuality;
+            /* 부드러운 렌더링 */
+            -webkit-filter: none;
+            filter: none;
         }
     </style>
 </head>
 <body>
-    <div id="svg-container">
-        <img src="박승준명함.svg" alt="박승준명함" onclick="goToNextPage()">
+    <div id="svg-container1" class="svg-container">
+        <img src="박승준명함.svg" alt="박승준명함" onclick="goToParkPage()">
+    </div>
+    
+    <div id="svg-container2" class="svg-container">
+        <img src="김동규명함.svg" alt="김동규명함" onclick="goToKimPage()">
     </div>
 
     <script>
-        function getRandomPosition() {
-            const container = document.getElementById('svg-container');
+        function getRandomPosition(containerId) {
+            const container = document.getElementById(containerId);
             const img = container.querySelector('img');
             
             // 이미지 크기 고려하여 랜덤 위치 계산
@@ -60,16 +100,24 @@
             container.style.top = randomY + 'px';
         }
 
-        function goToNextPage() {
+        function goToParkPage() {
             window.location.href = '千一手千一眼.html';
         }
 
+        function goToKimPage() {
+            window.location.href = 'facetodot.html';
+        }
+
         // 페이지 로드 시 랜덤 위치 설정
-        window.addEventListener('load', getRandomPosition);
+        window.addEventListener('load', function() {
+            getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
+        });
         
         // 새로고침 시에도 랜덤 위치 설정
         window.addEventListener('beforeunload', function() {
-            getRandomPosition();
+            getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
         });
     </script>
 </body>
