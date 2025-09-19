@@ -23,7 +23,8 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
+            gap: 0;
         }
 
         .image-content {
@@ -31,6 +32,11 @@
             height: auto;
             object-fit: cover;
             display: block;
+            vertical-align: top;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
             /* 성능 최적화 */
             will-change: transform;
             transform: translateZ(0);
@@ -51,6 +57,11 @@
             height: 100vh;
             object-fit: cover;
             display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            vertical-align: top;
             /* 비디오 컨트롤 완전히 숨기기 */
             -webkit-media-controls: none;
             -moz-media-controls: none;
