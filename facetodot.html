@@ -5,31 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>facetodot</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         /* 1) 기본 여백 리셋(문단/제목/리스트/figure/hr 등) */
         body, h1,h2,h3,h4,h5,h6, p, ul, ol, li, figure, figcaption, hr, section, article {
-            margin: 0;
+          margin: 0;
         }
-
         /* 2) 이미지/SVG 아래쪽 베이스라인 공백 제거 */
         img, svg, canvas, video {
-            display: block;      /* 인라인 → 블록으로 */
-            max-width: 100%;
-            height: auto;
+          display: block;      /* 인라인 → 블록으로 */
+          max-width: 100%;
+          height: auto;
         }
-
         /* 3) 섹션 간 공백은 margin 대신 padding으로 제어 (마진 겹침 방지) */
         .section {
-            padding: 24px 0;     /* 필요한 경우만 여백 주기 */
+          padding: 24px 0;     /* 필요한 경우만 여백 주기 */
         }
         .section > :first-child { margin-top: 0; }
         .section > :last-child  { margin-bottom: 0; }
-
         /* 4) hr 기본 여백 제거(보이면) */
         hr { margin: 0; }
 
@@ -43,84 +34,31 @@
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE and Edge */
         }
-
         /* 웹킷 브라우저용 스크롤바 숨기기 */
         html::-webkit-scrollbar,
         body::-webkit-scrollbar {
             display: none;
         }
-
         body {
             background-color: black;
         }
-
         .container {
             width: 100%;
             min-height: 100vh;
             display: block;
             margin: 0;
             padding: 0;
-            font-size: 0;
-            line-height: 0;
         }
-
         .image-content {
             width: 100%;
             height: auto;
             object-fit: cover;
-            /* 성능 최적화 */
-            will-change: transform;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-            /* 이미지 로딩 최적화 */
-            image-rendering: auto;
-            /* 웹 호스팅 환경에서 안정적인 표시 */
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
         }
-        
-        .image-content.loaded {
-            opacity: 1;
-        }
-
-        video {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            /* 비디오 컨트롤 완전히 숨기기 */
-            -webkit-media-controls: none;
-            -moz-media-controls: none;
-            -ms-media-controls: none;
-            media-controls: none;
-            /* 브라우저 기본 오버레이 숨기기 */
-            -webkit-media-controls-overlay-play-button: none;
-            -webkit-media-controls-play-button: none;
-            -webkit-media-controls-timeline: none;
-            -webkit-media-controls-current-time-display: none;
-            -webkit-media-controls-time-remaining-display: none;
-            -webkit-media-controls-mute-button: none;
-            -webkit-media-controls-volume-slider: none;
-            -webkit-media-controls-fullscreen-button: none;
-            /* 포인터 이벤트 비활성화 */
-            pointer-events: none;
-        }
-
-        /* 모바일 반응형 */
-        @media screen and (max-width: 768px) {
-            video {
-                height: auto;
-                min-height: 100vh;
-                max-height: none;
-            }
-            
-            .image-content {
-                /* 모바일에서 더 빠른 렌더링 */
-                image-rendering: optimizeSpeed;
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-            }
-        }
-
         .back-button {
             position: fixed;
             top: 20px;
@@ -132,9 +70,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            z-index: 1000;
         }
-
         .back-button:hover {
             background-color: rgba(0, 0, 0, 0.9);
         }
@@ -144,11 +80,7 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="김동규1.jpg?v=20241220" alt="김동규1" class="image-content" loading="eager" onload="this.style.opacity=1" onerror="console.log('이미지 로딩 실패:', this.src)">
-        <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
-            <source src="김동규2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <img src="김동규1.jpg?v=20241220" alt="김동규1" class="image-content">
     </div>
 
     <script>
@@ -161,61 +93,6 @@
             if (event.key === 'Escape') {
                 goBack();
             }
-        });
-
-        // 이미지 로딩 확인 및 표시
-        function ensureImageLoads() {
-            const img = document.querySelector('.image-content');
-            
-            // 이미지가 이미 로드된 경우
-            if (img.complete && img.naturalHeight !== 0) {
-                img.classList.add('loaded');
-                return;
-            }
-            
-            // 이미지 로드 이벤트 리스너
-            img.addEventListener('load', function() {
-                this.classList.add('loaded');
-                console.log('김동규1 이미지 로드 완료');
-            });
-            
-            img.addEventListener('error', function() {
-                console.log('김동규1 이미지 로딩 실패:', this.src);
-                // 재시도
-                setTimeout(() => {
-                    this.src = this.src + '?t=' + Date.now();
-                }, 1000);
-            });
-            
-            // 타임아웃 설정 (5초 후 강제 표시)
-            setTimeout(() => {
-                if (!img.classList.contains('loaded')) {
-                    img.classList.add('loaded');
-                    console.log('이미지 로딩 타임아웃 - 강제 표시');
-                }
-            }, 5000);
-        }
-
-        // 비디오 자동재생 보장 및 모바일 최적화
-        document.addEventListener('DOMContentLoaded', function() {
-            ensureImageLoads();
-            
-            const video = document.querySelector('video');
-            
-            // 모바일에서 비디오 최적화
-            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                video.setAttribute('playsinline', 'true');
-                video.setAttribute('webkit-playsinline', 'true');
-                video.muted = true;
-            }
-            
-            video.play().catch(function(error) {
-                console.log('자동재생 실패:', error);
-                // 자동재생 실패시 사용자 상호작용 후 재생
-                document.addEventListener('touchstart', function() {
-                    video.play();
-                }, { once: true });
-            });
         });
     </script>
 </body>
