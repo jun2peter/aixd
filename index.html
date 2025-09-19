@@ -73,11 +73,23 @@
             -webkit-filter: none;
             filter: none;
         }
+
+        /* 김동규 명함 크기 줄이기 */
+        #svg-container2 img {
+            max-width: 150px;
+            max-height: 150px;
+            width: auto;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <div id="svg-container1" class="svg-container">
         <img src="박승준명함.svg" alt="박승준명함" onclick="goToParkPage()">
+    </div>
+    
+    <div id="svg-container2" class="svg-container">
+        <img src="김동규명함.svg" alt="김동규명함" onclick="goToKimPage()">
     </div>
 
     <script>
@@ -100,14 +112,20 @@
             window.location.href = '千一手千一眼.html';
         }
 
+        function goToKimPage() {
+            window.location.href = 'facetodot.html';
+        }
+
         // 페이지 로드 시 랜덤 위치 설정
         window.addEventListener('load', function() {
             getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
         });
         
         // 새로고침 시에도 랜덤 위치 설정
         window.addEventListener('beforeunload', function() {
             getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
         });
     </script>
 </body>
