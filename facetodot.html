@@ -59,6 +59,16 @@
             border: none;
             outline: none;
         }
+        video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+        }
         .back-button {
             position: fixed;
             top: 20px;
@@ -81,6 +91,10 @@
     
     <div class="container">
         <img src="김동규1.jpg?v=20241220" alt="김동규1" class="image-content">
+        <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
+            <source src="김동규2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <script>
@@ -93,6 +107,26 @@
             if (event.key === 'Escape') {
                 goBack();
             }
+        });
+
+        // 비디오 자동재생 보장 및 모바일 최적화
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('video');
+            
+            // 모바일에서 비디오 최적화
+            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
+                video.muted = true;
+            }
+            
+            video.play().catch(function(error) {
+                console.log('자동재생 실패:', error);
+                // 자동재생 실패시 사용자 상호작용 후 재생
+                document.addEventListener('touchstart', function() {
+                    video.play();
+                }, { once: true });
+            });
         });
     </script>
 </body>
