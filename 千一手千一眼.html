@@ -21,35 +21,36 @@
             width: 100vw;
             min-height: 100vh;
             display: flex;
-            align-items: flex-start;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .svg-content {
+        .image-content {
             width: 100vw;
             height: auto;
             object-fit: cover;
-            /* 고해상도 디스플레이 최적화 */
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            image-rendering: pixelated;
+            display: block;
+            /* 고해상도 이미지 최적화 */
             image-rendering: auto;
             image-rendering: optimizeQuality;
             /* GPU 가속 활성화 */
             -webkit-backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            /* 모바일 화질 개선 */
+            /* 부드러운 렌더링 */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* 부드러운 렌더링 */
+            /* 필터 최적화 */
             -webkit-filter: none;
             filter: none;
+            /* 브라우저별 최적화 */
+            -webkit-image-rendering: optimizeQuality;
+            -moz-image-rendering: optimizeQuality;
+            -ms-image-rendering: optimizeQuality;
+            /* 고해상도 디스플레이 지원 */
+            image-rendering: -webkit-optimize-contrast;
             /* 픽셀 정렬 최적화 */
-            image-rendering: -webkit-crisp-edges;
             image-rendering: crisp-edges;
-            /* 고해상도 지원 */
-            image-rendering: high-quality;
         }
 
         .back-button {
@@ -75,7 +76,11 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="박승준.svg" alt="박승준" class="svg-content">
+        <img src="박승준1.jpg" alt="박승준1" class="image-content">
+        <img src="박승준2.jpg" alt="박승준2" class="image-content">
+        <img src="박승준3.jpg" alt="박승준3" class="image-content">
+        <img src="박승준4.jpg" alt="박승준4" class="image-content">
+        <img src="박승준5.jpg" alt="박승준5" class="image-content">
     </div>
 
     <script>
