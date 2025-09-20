@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cussemble</title>
+    <style>
+        /* 1) 기본 여백 리셋(문단/제목/리스트/figure/hr 등) */
+        body, h1,h2,h3,h4,h5,h6, p, ul, ol, li, figure, figcaption, hr, section, article {
+          margin: 0;
+        }
+        /* 2) 이미지/SVG 아래쪽 베이스라인 공백 제거 */
+        img, svg, canvas, video {
+          display: block;      /* 인라인 → 블록으로 */
+          max-width: 100%;
+          height: auto;
+        }
+        /* 3) 섹션 간 공백은 margin 대신 padding으로 제어 (마진 겹침 방지) */
+        .section {
+          padding: 24px 0;     /* 필요한 경우만 여백 주기 */
+        }
+        .section > :first-child { margin-top: 0; }
+        .section > :last-child  { margin-bottom: 0; }
+        /* 4) hr 기본 여백 제거(보이면) */
+        hr { margin: 0; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden; /* 가로 스크롤 완전히 차단 */
+            overflow-y: auto; /* 세로 스크롤 허용 */
+            /* 스크롤바 숨기기 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        /* 웹킷 브라우저용 스크롤바 숨기기 */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            background-color: black;
+        }
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            /* 모든 호버 효과 제거 */
+            pointer-events: none;
+            /* 성능 최적화 */
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        /* 모바일 최적화 */
+        @media screen and (max-width: 768px) {
+            video {
+                height: 100vh;
+                object-fit: cover;
+            }
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+        }
+        .back-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">← 뒤로가기</button>
+    
+    <div class="container">
+        <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
+            <source src="Cussemble1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        function goBack() {
+            console.log('뒤로가기 버튼 클릭됨');
+            window.location.href = 'index.html';
+        }
+
+        // 키보드 ESC 키로도 뒤로가기 가능
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                goBack();
+            }
+        });
+
+        // 비디오 자동재생 보장 및 모바일 최적화
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('video');
+            
+            // 모바일에서 비디오 최적화
+            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
+                video.muted = true;
+            }
+            
+            video.play().catch(function(error) {
+                console.log('자동재생 실패:', error);
+                // 자동재생 실패시 사용자 상호작용 후 재생
+                document.addEventListener('touchstart', function() {
+                    video.play();
+                }, { once: true });
+            });
+        });
+    </script>
+</body>
+</html>

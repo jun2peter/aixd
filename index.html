@@ -23,6 +23,55 @@
         .svg-container {
             position: absolute;
             transition: all 0.3s ease;
+            opacity: 0; /* 처음에는 숨김 */
+            animation: none; /* 처음에는 애니메이션 없음 */
+        }
+
+        .svg-container.visible {
+            opacity: 1; /* 보이게 됨 */
+            animation: float 3s ease-in-out infinite; /* 보이게 되면 애니메이션 시작 */
+        }
+
+        .svg-container:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+
+        /* 둥둥 떠다니는 애니메이션 */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(-1deg);
+            }
+        }
+
+        /* 각 명함마다 다른 애니메이션 타이밍 */
+        #svg-container1 {
+            animation-delay: 0s;
+            animation-duration: 3s;
+        }
+
+        #svg-container2 {
+            animation-delay: 0.5s;
+            animation-duration: 3s;
+        }
+
+        #svg-container3 {
+            animation-delay: 1s;
+            animation-duration: 3s;
+        }
+
+        #svg-container4 {
+            animation-delay: 1.5s;
+            animation-duration: 3s;
         }
 
         .svg-container img {
@@ -30,56 +79,73 @@
             max-height: 200px;
             width: auto;
             height: auto;
-            /* 고해상도 디스플레이 최적화 */
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            image-rendering: pixelated;
-            /* GPU 가속 활성화 */
+            /* 성능 최적화 */
+            will-change: transform;
             -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            /* 모바일 화질 개선 */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            /* 픽셀 정렬 */
+            /* 이미지 렌더링 최적화 */
             image-rendering: auto;
             image-rendering: optimizeQuality;
             /* 부드러운 렌더링 */
-            -webkit-filter: none;
-            filter: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 모바일 최적화 */
+        @media screen and (max-width: 768px) {
+            .svg-container img {
+                max-width: 150px;
+                max-height: 150px;
+                image-rendering: optimizeSpeed;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+            
+            #svg-container1 img {
+                max-width: 200px;
+                max-height: 200px;
+            }
+            
+            #svg-container2 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+            
+            #svg-container3 img {
+                max-width: 150px;
+                max-height: 150px;
+            }
+            
+            #svg-container4 img {
+                max-width: 130px;
+                max-height: 130px;
+            }
         }
 
         /* 박승준 명함만 크기 키우기 */
         #svg-container1 img {
-            max-width: 300px;
-            max-height: 300px;
-            width: auto;
-            height: auto;
-            /* 고해상도 디스플레이 최적화 */
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            image-rendering: pixelated;
-            /* GPU 가속 활성화 */
-            -webkit-backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            /* 모바일 화질 개선 */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            /* 픽셀 정렬 */
-            image-rendering: auto;
-            image-rendering: optimizeQuality;
-            /* 부드러운 렌더링 */
-            -webkit-filter: none;
-            filter: none;
+            max-width: 280px;
+            max-height: 280px;
         }
 
         /* 김동규 명함 크기 줄이기 */
         #svg-container2 img {
             max-width: 150px;
             max-height: 150px;
-            width: auto;
-            height: auto;
+        }
+
+        /* 소릿 명함 크기 설정 */
+        #svg-container3 img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        /* 쿠 명함 크기 설정 */
+        #svg-container4 img {
+            max-width: 180px;
+            max-height: 180px;
         }
     </style>
 </head>
@@ -91,8 +157,19 @@
     <div id="svg-container2" class="svg-container">
         <img src="kim_card.svg" alt="김동규명함" onclick="goToKimPage()">
     </div>
+    
+    <div id="svg-container3" class="svg-container">
+        <img src="sorit.svg" alt="소릿명함" onclick="goToSoritPage()">
+    </div>
+    
+    <div id="svg-container4" class="svg-container">
+        <img src="cu.svg" alt="쿠명함" onclick="goToCussemblePage()">
+    </div>
 
     <script>
+        // 이미 배치된 명함들의 위치를 저장
+        let placedCards = [];
+        
         function getRandomPosition(containerId) {
             const container = document.getElementById(containerId);
             const img = container.querySelector('img');
@@ -101,11 +178,51 @@
             const maxX = window.innerWidth - img.offsetWidth;
             const maxY = window.innerHeight - img.offsetHeight;
             
-            const randomX = Math.random() * Math.max(0, maxX);
-            const randomY = Math.random() * Math.max(0, maxY);
+            let attempts = 0;
+            let randomX, randomY;
+            let isOverlapping = true;
+            
+            // 겹치지 않는 위치를 찾을 때까지 반복 (최대 100번 시도)
+            while (isOverlapping && attempts < 100) {
+                randomX = Math.random() * Math.max(0, maxX);
+                randomY = Math.random() * Math.max(0, maxY);
+                
+                isOverlapping = false;
+                
+                // 기존에 배치된 명함들과 겹치는지 확인
+                for (let placedCard of placedCards) {
+                    if (isOverlappingWith(containerId, randomX, randomY, img.offsetWidth, img.offsetHeight, placedCard)) {
+                        isOverlapping = true;
+                        break;
+                    }
+                }
+                
+                attempts++;
+            }
             
             container.style.left = randomX + 'px';
             container.style.top = randomY + 'px';
+            
+            // 배치된 명함 정보 저장
+            placedCards.push({
+                id: containerId,
+                x: randomX,
+                y: randomY,
+                width: img.offsetWidth,
+                height: img.offsetHeight
+            });
+        }
+        
+        function isOverlappingWith(currentId, x, y, width, height, placedCard) {
+            // 같은 명함이면 겹치지 않음
+            if (currentId === placedCard.id) return false;
+            
+            // 여백을 고려한 겹침 검사 (20px 여백)
+            const margin = 20;
+            return !(x + width + margin < placedCard.x || 
+                    placedCard.x + placedCard.width + margin < x || 
+                    y + height + margin < placedCard.y || 
+                    placedCard.y + placedCard.height + margin < y);
         }
 
         function goToParkPage() {
@@ -116,16 +233,49 @@
             window.location.href = 'facetodot.html';
         }
 
-        // 페이지 로드 시 랜덤 위치 설정
+        function goToSoritPage() {
+            window.location.href = 'sorit.html';
+        }
+
+        function goToCussemblePage() {
+            window.location.href = 'cussemble.html';
+        }
+
+        // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
+            // 기존 배치 정보 초기화
+            placedCards = [];
+            
+            // 모든 명함을 한 번에 배치
             getRandomPosition('svg-container1');
             getRandomPosition('svg-container2');
+            getRandomPosition('svg-container3');
+            getRandomPosition('svg-container4');
+            
+            // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
+            setTimeout(() => {
+                document.getElementById('svg-container1').classList.add('visible');
+                document.getElementById('svg-container2').classList.add('visible');
+                document.getElementById('svg-container3').classList.add('visible');
+                document.getElementById('svg-container4').classList.add('visible');
+            }, 100);
         });
         
         // 새로고침 시에도 랜덤 위치 설정
         window.addEventListener('beforeunload', function() {
+            placedCards = [];
             getRandomPosition('svg-container1');
             getRandomPosition('svg-container2');
+            getRandomPosition('svg-container3');
+            getRandomPosition('svg-container4');
+            
+            // 모든 명함을 동시에 보이게 함
+            setTimeout(() => {
+                document.getElementById('svg-container1').classList.add('visible');
+                document.getElementById('svg-container2').classList.add('visible');
+                document.getElementById('svg-container3').classList.add('visible');
+                document.getElementById('svg-container4').classList.add('visible');
+            }, 50);
         });
     </script>
 </body>

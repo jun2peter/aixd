@@ -50,13 +50,25 @@
             outline: none;
             /* 성능 최적화 */
             will-change: transform;
-            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             -webkit-transform: translateZ(0);
+            transform: translateZ(0);
             /* 이미지 로딩 최적화 */
             image-rendering: auto;
+            image-rendering: optimizeQuality;
             /* 지연 로딩을 위한 초기 숨김 */
             opacity: 0;
             transition: opacity 0.3s ease;
+        }
+
+        /* 모바일 최적화 */
+        @media screen and (max-width: 768px) {
+            .image-content {
+                image-rendering: optimizeSpeed;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
         }
 
         .image-content.loaded {
