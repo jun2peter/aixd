@@ -57,9 +57,8 @@
             /* 이미지 로딩 최적화 */
             image-rendering: auto;
             image-rendering: optimizeQuality;
-            /* 지연 로딩을 위한 초기 숨김 */
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            /* 즉시 표시 */
+            opacity: 1;
         }
 
         /* 모바일 최적화 */
@@ -75,16 +74,6 @@
             opacity: 1;
         }
 
-        /* 로딩 인디케이터 */
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: black;
-            font-size: 18px;
-            z-index: 1000;
-        }
 
         .back-button {
             position: fixed;
@@ -108,7 +97,6 @@
 <body>
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
-    <div class="loading" id="loading">로딩 중...</div>
     
     <div class="container">
         <img src="박승준1_compressed.jpg" alt="박승준1" class="image-content" loading="lazy">
@@ -123,37 +111,9 @@
             window.location.href = 'index.html';
         }
 
-        // 이미지 지연 로딩 및 페이드인 효과
-        function loadImages() {
-            const images = document.querySelectorAll('.image-content');
-            const loading = document.getElementById('loading');
-            let loadedCount = 0;
-            const totalImages = images.length;
-
-            images.forEach((img, index) => {
-                img.addEventListener('load', function() {
-                    loadedCount++;
-                    this.classList.add('loaded');
-                    
-                    if (loadedCount === totalImages) {
-                        loading.style.display = 'none';
-                    }
-                });
-
-                img.addEventListener('error', function() {
-                    console.log('이미지 로딩 실패:', this.src);
-                    loadedCount++;
-                    if (loadedCount === totalImages) {
-                        loading.style.display = 'none';
-                    }
-                });
-            });
-        }
-
         // 페이지 로드 시 맨 위로 스크롤
         window.addEventListener('load', function() {
             window.scrollTo(0, 0);
-            loadImages();
         });
 
         // 키보드 ESC 키로도 뒤로가기 가능
