@@ -40,148 +40,63 @@
             display: none;
         }
         body {
-            background-color: black;
+            background-color: white;
         }
         .container {
             width: 100%;
             min-height: 100vh;
-            display: block;
-            margin: 0;
-            padding: 0;
-        }
-        .image-content {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            display: block;
-            margin: 0;
-            padding: 0;
-            border: none;
-            outline: none;
-            /* 성능 최적화 */
-            will-change: transform;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            /* 이미지 렌더링 최적화 */
-            image-rendering: auto;
-            image-rendering: optimizeQuality;
-        }
-        /* 비디오를 화면 폭에 정확히 맞추는 래퍼 */
-        .video-wrap {
-            position: relative;
-            width: 100vw;
-            margin: 0 auto;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 0;
+            font-size: 0;
         }
 
-        /* 16:9 비율 박스 (가로 대비 세로 비율) */
+
+        .image-content,
+        .video-wrap {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            line-height: 0 !important;
+            vertical-align: top !important;
+            box-sizing: border-box;
+        }
+
+        .video-wrap {
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            display: block; /* 블록 요소로 변환 */
+        }
+
+        .video-wrap > video {
+            display: block; /* 비디오도 블록 요소로 변환 */
+        }
+
         .video-wrap::before {
             content: "";
             display: block;
-            padding-top: var(--video-pt, 56.25%); /* 9/16 * 100 = 56.25% */
+            padding-top: 56.25%; /* 16:9 비율 */
         }
 
-        /* 비디오를 래퍼에 완전히 채우고 잘라내기 */
         .video-wrap > video {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            border: none;
-            outline: none;
-            /* 모든 비디오 컨트롤 완전 제거 */
+            display: block; /* 블록 요소로 변환 */
+            /* 비디오 컨트롤 숨김 */
             -webkit-media-controls: none;
             -moz-media-controls: none;
             -o-media-controls: none;
             media-controls: none;
-            /* 성능 최적화 */
-            will-change: transform;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-        }
-        
-        /* 비디오 컨트롤 완전 숨김 */
-        .video-wrap video::-webkit-media-controls {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-panel {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-play-button {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-timeline {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-current-time-display {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-time-remaining-display {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-mute-button {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-volume-slider {
-            display: none !important;
-        }
-        
-        .video-wrap video::-webkit-media-controls-fullscreen-button {
-            display: none !important;
-        }
-        
-        /* iOS Safari의 자동재생 실패 시 뜨는 큰 ▶︎버튼 숨기기 */
-        .video-wrap video::-webkit-media-controls-start-playback-button {
-            display: none !important;
-            -webkit-appearance: none;
-        }
-
-        /* 모바일 최적화 */
-        @media screen and (max-width: 768px) {
-            .image-content {
-                image-rendering: optimizeSpeed;
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-                /* 모바일 성능 최적화 */
-                will-change: auto;
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-            }
-            
-            .video-wrap {
-                width: 100vw !important;
-            }
-            
-            .video-wrap > video {
-                /* 모바일 비디오 최적화 */
-                will-change: auto;
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-                /* 모바일에서 컨트롤 완전 제거 */
-                -webkit-media-controls: none !important;
-                -moz-media-controls: none !important;
-                -o-media-controls: none !important;
-                media-controls: none !important;
-            }
-            
-            /* 모바일에서 애니메이션 최적화 */
-            * {
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-            }
         }
         .back-button {
             position: fixed !important;
@@ -208,7 +123,7 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="김동규1.jpg?v=20241220" alt="김동규1" class="image-content">
+        <img src="김동규1.jpg" alt="김동규1" class="image-content">
         
         <div class="video-wrap">
             <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
@@ -237,68 +152,13 @@
             }
         });
 
-        // 비디오 비율 자동 설정 (개별 비디오용)
-        function setVideoAspectFromMeta(video) {
-            if (!video) return;
-            
-            const wrap = video.closest('.video-wrap');
-            if (!wrap) return;
-
-            if (video.videoWidth && video.videoHeight) {
-                const ratio = (video.videoHeight / video.videoWidth) * 100; // 세로/가로 * 100
-                wrap.style.setProperty('--video-pt', ratio + '%');
-            }
-        }
-
-        // 강화된 비디오 자동재생 패치 (모든 비디오에 적용)
-        document.addEventListener('DOMContentLoaded', () => {
-            const wraps = document.querySelectorAll('.video-wrap');
-            const videos = document.querySelectorAll('.video-wrap video');
-            
-            if (wraps.length === 0 || videos.length === 0) return;
-
-            // 모든 비디오 래퍼에 기본 비율 설정
-            wraps.forEach(wrap => {
-                wrap.style.setProperty('--video-pt', '56.25%');
-            });
-
-            // 각 비디오에 개별적으로 설정 적용
-            videos.forEach((video, index) => {
-                // 속성과 별개로 "프로퍼티"도 강제 세팅 (중요!)
-                video.muted = true;
-                video.autoplay = true;
-                video.loop = true;
-                video.setAttribute('playsinline', 'true');
-                video.setAttribute('webkit-playsinline', 'true');
-
-                const tryPlay = () => video.play().catch(err => {
-                    console.log(`비디오 ${index + 1} play() 실패:`, err && err.name, err && err.message);
+        // 비디오 자동재생
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.play().catch(() => {
+                    // 자동재생 실패 시 무시
                 });
-
-                // 1) 즉시 시도
-                tryPlay();
-
-                // 2) 사용자 제스처 들어오면 재시도(모든 케이스 커버)
-                const resumeOnce = () => { tryPlay(); cleanup(); };
-                const cleanup = () => ['touchstart','pointerdown','click']
-                    .forEach(ev => document.removeEventListener(ev, resumeOnce, { once:true }));
-                ['touchstart','pointerdown','click']
-                    .forEach(ev => document.addEventListener(ev, resumeOnce, { once:true }));
-
-                // 3) 백그라운드 → 복귀 시 재시도
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden) tryPlay();
-                });
-
-                // 4) 메타데이터 늦을 때 대비 (비율 계산도 이 시점이 안정적)
-                if (video.readyState < 1) {
-                    video.addEventListener('loadedmetadata', () => {
-                        tryPlay();
-                        setVideoAspectFromMeta(video);
-                    }, { once:true });
-                } else {
-                    setVideoAspectFromMeta(video);
-                }
             });
         });
     </script>

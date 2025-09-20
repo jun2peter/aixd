@@ -73,6 +73,11 @@
             animation-delay: 1.5s;
             animation-duration: 3s;
         }
+        
+        #svg-container5 {
+            animation-delay: 2s;
+            animation-duration: 3s;
+        }
 
         .svg-container img {
             max-width: 200px;
@@ -130,6 +135,11 @@
                 max-width: 110px;
                 max-height: 110px;
             }
+            
+            #svg-container5 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
         }
 
         /* 박승준 명함만 크기 키우기 */
@@ -172,6 +182,10 @@
     
     <div id="svg-container4" class="svg-container">
         <img src="cu.svg" alt="쿠명함" onclick="goToCussemblePage()">
+    </div>
+    
+    <div id="svg-container5" class="svg-container">
+        <img src="HH.svg" alt="HH명함" onclick="goToDistortPage()">
     </div>
 
     <script>
@@ -248,6 +262,10 @@
         function goToCussemblePage() {
             window.location.href = 'cussemble.html';
         }
+        
+        function goToDistortPage() {
+            window.location.href = 'distort.html';
+        }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
@@ -259,6 +277,7 @@
             getRandomPosition('svg-container2');
             getRandomPosition('svg-container3');
             getRandomPosition('svg-container4');
+            getRandomPosition('svg-container5');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -266,6 +285,7 @@
                 document.getElementById('svg-container2').classList.add('visible');
                 document.getElementById('svg-container3').classList.add('visible');
                 document.getElementById('svg-container4').classList.add('visible');
+                document.getElementById('svg-container5').classList.add('visible');
             }, 100);
         });
         
@@ -276,6 +296,7 @@
             getRandomPosition('svg-container2');
             getRandomPosition('svg-container3');
             getRandomPosition('svg-container4');
+            getRandomPosition('svg-container5');
             
             // 모든 명함을 동시에 보이게 함
             setTimeout(() => {
@@ -283,6 +304,7 @@
                 document.getElementById('svg-container2').classList.add('visible');
                 document.getElementById('svg-container3').classList.add('visible');
                 document.getElementById('svg-container4').classList.add('visible');
+                document.getElementById('svg-container5').classList.add('visible');
             }, 50);
         });
     </script>
