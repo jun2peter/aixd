@@ -95,32 +95,40 @@
 
         /* 모바일 최적화 */
         @media screen and (max-width: 768px) {
+            .svg-container {
+                animation-duration: 4s; /* 모바일에서 애니메이션 느리게 */
+            }
+            
             .svg-container img {
-                max-width: 150px;
-                max-height: 150px;
+                max-width: 120px;
+                max-height: 120px;
                 image-rendering: optimizeSpeed;
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: crisp-edges;
+                /* 모바일 성능 최적화 */
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                will-change: auto; /* 애니메이션 최적화 */
             }
             
             #svg-container1 img {
-                max-width: 200px;
-                max-height: 200px;
+                max-width: 160px;
+                max-height: 160px;
             }
             
             #svg-container2 img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+            
+            #svg-container3 img {
                 max-width: 120px;
                 max-height: 120px;
             }
             
-            #svg-container3 img {
-                max-width: 150px;
-                max-height: 150px;
-            }
-            
             #svg-container4 img {
-                max-width: 130px;
-                max-height: 130px;
+                max-width: 110px;
+                max-height: 110px;
             }
         }
 
