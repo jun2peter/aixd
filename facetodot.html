@@ -251,18 +251,26 @@
                     video.setAttribute('playsinline', 'true');
                     video.setAttribute('webkit-playsinline', 'true');
                     video.muted = true;
+                    video.autoplay = true;
+                    video.loop = true;
                 }
                 
                 // 메타데이터 로드 후 실제 비율로 업데이트
                 if (video.readyState >= 1) setVideoAspectFromMeta();
                 else video.addEventListener('loadedmetadata', setVideoAspectFromMeta, { once: true });
                 
+                // 강제 자동재생 시도
                 video.play().catch(function(error) {
                     console.log('자동재생 실패:', error);
-                    // 자동재생 실패시 사용자 상호작용 후 재생
-                    document.addEventListener('touchstart', function() {
-                        video.play();
-                    }, { once: true });
+                    // 여러 방법으로 재생 시도
+                    setTimeout(() => {
+                        video.play().catch(() => {
+                            // 터치 이벤트로 재생
+                            document.addEventListener('touchstart', function() {
+                                video.play();
+                            }, { once: true });
+                        });
+                    }, 100);
                 });
             }
         });
