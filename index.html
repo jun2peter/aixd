@@ -36,6 +36,10 @@
             transform: translateY(-5px);
             filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0,0,0,0.3));
         }
+        
+        .svg-container:active {
+            animation-play-state: paused; /* 클릭 시 애니메이션 일시정지 */
+        }
 
         /* 둥둥 떠다니는 애니메이션 */
         @keyframes float {
@@ -53,29 +57,34 @@
             }
         }
 
-        /* 각 명함마다 다른 애니메이션 타이밍 */
+        /* 각 명함마다 다른 애니메이션 타이밍 (짧은 지연) */
         #svg-container1 {
             animation-delay: 0s;
             animation-duration: 3s;
         }
 
         #svg-container2 {
-            animation-delay: 0.5s;
+            animation-delay: 0.1s;
             animation-duration: 3s;
         }
 
         #svg-container3 {
-            animation-delay: 1s;
+            animation-delay: 0.2s;
             animation-duration: 3s;
         }
 
         #svg-container4 {
-            animation-delay: 1.5s;
+            animation-delay: 0.3s;
             animation-duration: 3s;
         }
         
         #svg-container5 {
-            animation-delay: 2s;
+            animation-delay: 0.4s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container6 {
+            animation-delay: 0.5s;
             animation-duration: 3s;
         }
 
@@ -140,6 +149,11 @@
                 max-width: 120px;
                 max-height: 120px;
             }
+            
+            #svg-container6 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
         }
 
         /* 박승준 명함만 크기 키우기 */
@@ -186,6 +200,10 @@
     
     <div id="svg-container5" class="svg-container">
         <img src="HH.svg" alt="HH명함" onclick="goToDistortPage()">
+    </div>
+    
+    <div id="svg-container6" class="svg-container">
+        <img src="SEN.svg" alt="SEN명함" onclick="goToSenselPage()">
     </div>
 
     <script>
@@ -266,6 +284,10 @@
         function goToDistortPage() {
             window.location.href = 'distort.html';
         }
+        
+        function goToSenselPage() {
+            window.location.href = 'sensel.html';
+        }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
@@ -278,6 +300,7 @@
             getRandomPosition('svg-container3');
             getRandomPosition('svg-container4');
             getRandomPosition('svg-container5');
+            getRandomPosition('svg-container6');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -286,6 +309,7 @@
                 document.getElementById('svg-container3').classList.add('visible');
                 document.getElementById('svg-container4').classList.add('visible');
                 document.getElementById('svg-container5').classList.add('visible');
+                document.getElementById('svg-container6').classList.add('visible');
             }, 100);
         });
         
@@ -297,6 +321,7 @@
             getRandomPosition('svg-container3');
             getRandomPosition('svg-container4');
             getRandomPosition('svg-container5');
+            getRandomPosition('svg-container6');
             
             // 모든 명함을 동시에 보이게 함
             setTimeout(() => {
@@ -305,6 +330,7 @@
                 document.getElementById('svg-container3').classList.add('visible');
                 document.getElementById('svg-container4').classList.add('visible');
                 document.getElementById('svg-container5').classList.add('visible');
+                document.getElementById('svg-container6').classList.add('visible');
             }, 50);
         });
     </script>
