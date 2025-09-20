@@ -216,6 +216,13 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+        
+        <div class="video-wrap">
+            <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                <source src="김동규3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <script>
@@ -230,11 +237,12 @@
             }
         });
 
-        // 비디오 비율 자동 설정
-        function setVideoAspectFromMeta() {
-            const wrap = document.querySelector('.video-wrap');
-            const video = wrap?.querySelector('video');
-            if (!wrap || !video) return;
+        // 비디오 비율 자동 설정 (개별 비디오용)
+        function setVideoAspectFromMeta(video) {
+            if (!video) return;
+            
+            const wrap = video.closest('.video-wrap');
+            if (!wrap) return;
 
             if (video.videoWidth && video.videoHeight) {
                 const ratio = (video.videoHeight / video.videoWidth) * 100; // 세로/가로 * 100
@@ -242,52 +250,56 @@
             }
         }
 
-        // 강화된 비디오 자동재생 패치
+        // 강화된 비디오 자동재생 패치 (모든 비디오에 적용)
         document.addEventListener('DOMContentLoaded', () => {
-            const wrap = document.querySelector('.video-wrap');
-            if (wrap) {
-                // 기본값(16:9) 지정
+            const wraps = document.querySelectorAll('.video-wrap');
+            const videos = document.querySelectorAll('.video-wrap video');
+            
+            if (wraps.length === 0 || videos.length === 0) return;
+
+            // 모든 비디오 래퍼에 기본 비율 설정
+            wraps.forEach(wrap => {
                 wrap.style.setProperty('--video-pt', '56.25%');
-            }
-
-            const video = document.querySelector('.video-wrap video');
-            if (!video) return;
-
-            // 속성과 별개로 "프로퍼티"도 강제 세팅 (중요!)
-            video.muted = true;
-            video.autoplay = true;
-            video.loop = true;
-            video.setAttribute('playsinline', 'true');
-            video.setAttribute('webkit-playsinline', 'true');
-
-            const tryPlay = () => video.play().catch(err => {
-                console.log('play() 실패:', err && err.name, err && err.message);
             });
 
-            // 1) 즉시 시도
-            tryPlay();
+            // 각 비디오에 개별적으로 설정 적용
+            videos.forEach((video, index) => {
+                // 속성과 별개로 "프로퍼티"도 강제 세팅 (중요!)
+                video.muted = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
 
-            // 2) 사용자 제스처 들어오면 재시도(모든 케이스 커버)
-            const resumeOnce = () => { tryPlay(); cleanup(); };
-            const cleanup = () => ['touchstart','pointerdown','click']
-                .forEach(ev => document.removeEventListener(ev, resumeOnce, { once:true }));
-            ['touchstart','pointerdown','click']
-                .forEach(ev => document.addEventListener(ev, resumeOnce, { once:true }));
+                const tryPlay = () => video.play().catch(err => {
+                    console.log(`비디오 ${index + 1} play() 실패:`, err && err.name, err && err.message);
+                });
 
-            // 3) 백그라운드 → 복귀 시 재시도
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) tryPlay();
+                // 1) 즉시 시도
+                tryPlay();
+
+                // 2) 사용자 제스처 들어오면 재시도(모든 케이스 커버)
+                const resumeOnce = () => { tryPlay(); cleanup(); };
+                const cleanup = () => ['touchstart','pointerdown','click']
+                    .forEach(ev => document.removeEventListener(ev, resumeOnce, { once:true }));
+                ['touchstart','pointerdown','click']
+                    .forEach(ev => document.addEventListener(ev, resumeOnce, { once:true }));
+
+                // 3) 백그라운드 → 복귀 시 재시도
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) tryPlay();
+                });
+
+                // 4) 메타데이터 늦을 때 대비 (비율 계산도 이 시점이 안정적)
+                if (video.readyState < 1) {
+                    video.addEventListener('loadedmetadata', () => {
+                        tryPlay();
+                        setVideoAspectFromMeta(video);
+                    }, { once:true });
+                } else {
+                    setVideoAspectFromMeta(video);
+                }
             });
-
-            // 4) 메타데이터 늦을 때 대비 (비율 계산도 이 시점이 안정적)
-            if (video.readyState < 1) {
-                video.addEventListener('loadedmetadata', () => {
-                    tryPlay();
-                    setVideoAspectFromMeta();
-                }, { once:true });
-            } else {
-                setVideoAspectFromMeta();
-            }
         });
     </script>
 </body>
