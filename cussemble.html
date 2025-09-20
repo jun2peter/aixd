@@ -49,13 +49,29 @@
             margin: 0;
             padding: 0;
         }
-        video {
+        /* 비디오를 화면 폭에 정확히 맞추는 래퍼 */
+        .video-wrap {
+            position: relative;
+            width: 100vw;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* 16:9 비율 박스 (가로 대비 세로 비율) */
+        .video-wrap::before {
+            content: "";
+            display: block;
+            padding-top: var(--video-pt, 56.25%); /* 9/16 * 100 = 56.25% */
+        }
+
+        /* 비디오를 래퍼에 완전히 채우고 잘라내기 */
+        .video-wrap > video {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
             display: block;
-            margin: 0;
-            padding: 0;
             border: none;
             outline: none;
             /* 모든 호버 효과 제거 */
@@ -112,14 +128,20 @@
 
         /* 모바일 최적화 */
         @media screen and (max-width: 768px) {
-            video {
+            .video-wrap {
                 width: 100vw !important;
-                height: auto;
-                object-fit: cover;
+            }
+            
+            .video-wrap > video {
                 /* 모바일 비디오 최적화 */
                 will-change: auto;
                 -webkit-transform: translateZ(0);
                 transform: translateZ(0);
+                /* 모바일에서 컨트롤 완전 제거 */
+                -webkit-media-controls: none !important;
+                -moz-media-controls: none !important;
+                -o-media-controls: none !important;
+                media-controls: none !important;
             }
             
             /* 모바일에서 애니메이션 최적화 */
@@ -150,10 +172,12 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
-            <source src="Cussemble1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="video-wrap">
+            <video autoplay muted loop playsinline webkit-playsinline preload="metadata">
+                <source src="Cussemble1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <script>
@@ -169,24 +193,47 @@
             }
         });
 
+        // 비디오 비율 자동 설정
+        function setVideoAspectFromMeta() {
+            const wrap = document.querySelector('.video-wrap');
+            const video = wrap?.querySelector('video');
+            if (!wrap || !video) return;
+
+            if (video.videoWidth && video.videoHeight) {
+                const ratio = (video.videoHeight / video.videoWidth) * 100; // 세로/가로 * 100
+                wrap.style.setProperty('--video-pt', ratio + '%');
+            }
+        }
+
         // 비디오 자동재생 보장 및 모바일 최적화
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.querySelector('video');
-            
-            // 모바일에서 비디오 최적화
-            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                video.setAttribute('playsinline', 'true');
-                video.setAttribute('webkit-playsinline', 'true');
-                video.muted = true;
+            const wrap = document.querySelector('.video-wrap');
+            if (wrap) {
+                // 기본값(16:9) 지정
+                wrap.style.setProperty('--video-pt', '56.25%');
             }
-            
-            video.play().catch(function(error) {
-                console.log('자동재생 실패:', error);
-                // 자동재생 실패시 사용자 상호작용 후 재생
-                document.addEventListener('touchstart', function() {
-                    video.play();
-                }, { once: true });
-            });
+
+            const video = document.querySelector('.video-wrap video');
+            if (video) {
+                // 모바일에서 비디오 최적화
+                if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    video.setAttribute('playsinline', 'true');
+                    video.setAttribute('webkit-playsinline', 'true');
+                    video.muted = true;
+                }
+                
+                // 메타데이터 로드 후 실제 비율로 업데이트
+                if (video.readyState >= 1) setVideoAspectFromMeta();
+                else video.addEventListener('loadedmetadata', setVideoAspectFromMeta, { once: true });
+                
+                video.play().catch(function(error) {
+                    console.log('자동재생 실패:', error);
+                    // 자동재생 실패시 사용자 상호작용 후 재생
+                    document.addEventListener('touchstart', function() {
+                        video.play();
+                    }, { once: true });
+                });
+            }
         });
     </script>
 </body>
