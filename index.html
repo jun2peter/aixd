@@ -139,8 +139,8 @@
             }
             
             .svg-container img {
-                max-width: 80px;
-                max-height: 80px;
+                width: 80px;
+                height: auto;
                 image-rendering: optimizeSpeed;
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: crisp-edges;
@@ -151,34 +151,36 @@
             }
         }
 
-        /* 박승준 명함만 크기 키우기 */
-        #svg-container1 img {
-            max-width: 280px;
-            max-height: 280px;
-        }
+        @media screen and (min-width: 769px) {
+            /* 박승준 명함만 크기 키우기 */
+            #svg-container1 img {
+                max-width: 280px;
+                max-height: 280px;
+            }
 
-        /* 김동규 명함 크기 줄이기 */
-        #svg-container2 img {
-            max-width: 150px;
-            max-height: 150px;
-        }
+            /* 김동규 명함 크기 줄이기 */
+            #svg-container2 img {
+                max-width: 150px;
+                max-height: 150px;
+            }
 
-        /* 소릿 명함 크기 설정 */
-        #svg-container3 img {
-            max-width: 200px;
-            max-height: 200px;
-        }
+            /* 소릿 명함 크기 설정 */
+            #svg-container3 img {
+                max-width: 200px;
+                max-height: 200px;
+            }
 
-        /* 쿠 명함 크기 설정 */
-        #svg-container4 img {
-            max-width: 180px;
-            max-height: 180px;
-        }
+            /* 쿠 명함 크기 설정 */
+            #svg-container4 img {
+                max-width: 180px;
+                max-height: 180px;
+            }
 
-        /* keep 명함 크기 설정 (다른 것보다 작게) */
-        #svg-container11 img {
-            max-width: 150px;
-            max-height: 150px;
+            /* keep 명함 크기 설정 (다른 것보다 작게) */
+            #svg-container11 img {
+                max-width: 150px;
+                max-height: 150px;
+            }
         }
     </style>
 </head>
