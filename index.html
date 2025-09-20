@@ -87,6 +87,16 @@
             animation-delay: 0.5s;
             animation-duration: 3s;
         }
+        
+        #svg-container7 {
+            animation-delay: 0.6s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container8 {
+            animation-delay: 0.7s;
+            animation-duration: 3s;
+        }
 
         .svg-container img {
             max-width: 200px;
@@ -154,6 +164,16 @@
                 max-width: 120px;
                 max-height: 120px;
             }
+            
+            #svg-container7 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+            
+            #svg-container8 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
         }
 
         /* 박승준 명함만 크기 키우기 */
@@ -204,6 +224,14 @@
     
     <div id="svg-container6" class="svg-container">
         <img src="SEN.svg" alt="SEN명함" onclick="goToSenselPage()">
+    </div>
+    
+    <div id="svg-container7" class="svg-container">
+        <img src="im.svg" alt="im명함" onclick="goToFmxisAnastasisPage()">
+    </div>
+    
+    <div id="svg-container8" class="svg-container">
+        <img src="car.svg" alt="car명함" onclick="goToCareerFitPage()">
     </div>
 
     <script>
@@ -288,6 +316,14 @@
         function goToSenselPage() {
             window.location.href = 'sensel.html';
         }
+        
+        function goToFmxisAnastasisPage() {
+            window.location.href = 'fmxis-anastasis.html';
+        }
+        
+        function goToCareerFitPage() {
+            window.location.href = 'career-fit.html';
+        }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
@@ -301,6 +337,8 @@
             getRandomPosition('svg-container4');
             getRandomPosition('svg-container5');
             getRandomPosition('svg-container6');
+            getRandomPosition('svg-container7');
+            getRandomPosition('svg-container8');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -310,6 +348,8 @@
                 document.getElementById('svg-container4').classList.add('visible');
                 document.getElementById('svg-container5').classList.add('visible');
                 document.getElementById('svg-container6').classList.add('visible');
+                document.getElementById('svg-container7').classList.add('visible');
+                document.getElementById('svg-container8').classList.add('visible');
             }, 100);
         });
         
@@ -322,6 +362,8 @@
             getRandomPosition('svg-container4');
             getRandomPosition('svg-container5');
             getRandomPosition('svg-container6');
+            getRandomPosition('svg-container7');
+            getRandomPosition('svg-container8');
             
             // 모든 명함을 동시에 보이게 함
             setTimeout(() => {
@@ -331,6 +373,8 @@
                 document.getElementById('svg-container4').classList.add('visible');
                 document.getElementById('svg-container5').classList.add('visible');
                 document.getElementById('svg-container6').classList.add('visible');
+                document.getElementById('svg-container7').classList.add('visible');
+                document.getElementById('svg-container8').classList.add('visible');
             }, 50);
         });
     </script>
