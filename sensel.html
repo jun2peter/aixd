@@ -52,20 +52,14 @@
             box-sizing: border-box;
         }
 
-        .video-wrap::before {
-            content: "";
-            display: block;
-            padding-top: 56.25%; /* 16:9 비율 */
+        .video-wrap {
+            position: relative;
         }
 
         .video-wrap > video {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block; /* 블록 요소로 변환 */
+            height: auto;
+            display: block;
             /* 비디오 컨트롤 숨김 */
             -webkit-media-controls: none;
             -moz-media-controls: none;
@@ -97,7 +91,11 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="박하경.jpg" alt="박하경" class="image-content">
+        <img src="박하경1.jpg" alt="박하경1" class="image-content">
+        <div class="video-wrap">
+            <video src="박하경2.mp4" autoplay loop muted playsinline webkit-playsinline preload="metadata"></video>
+        </div>
+        <img src="박하경3.jpg" alt="박하경3" class="image-content">
     </div>
 
     <script>
@@ -115,6 +113,45 @@
             if (event.key === 'Escape') {
                 goBack();
             }
+        });
+
+        // 비디오 자동재생 및 컨트롤 숨김
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            
+            videos.forEach(video => {
+                // 비디오 설정
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.webkitPlaysInline = true;
+                video.preload = 'metadata';
+                
+                // 컨트롤 완전히 숨김
+                video.controls = false;
+                video.style.pointerEvents = 'none';
+                
+                // 재생 시도
+                const tryPlay = () => {
+                    video.play().catch(e => {
+                        console.log('비디오 자동재생 실패:', e);
+                    });
+                };
+                
+                tryPlay();
+                
+                // 사용자 상호작용 후 재생
+                document.addEventListener('click', tryPlay, { once: true });
+                document.addEventListener('touchstart', tryPlay, { once: true });
+                
+                // 페이지 가시성 변경 시 재생
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) {
+                        tryPlay();
+                    }
+                });
+            });
         });
     </script>
 </body>
