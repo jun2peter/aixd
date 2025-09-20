@@ -242,7 +242,7 @@
             }
         }
 
-        // 통일된 비디오 자동재생 패치
+        // 강화된 비디오 자동재생 패치
         document.addEventListener('DOMContentLoaded', () => {
             const wrap = document.querySelector('.video-wrap');
             if (wrap) {
@@ -253,33 +253,41 @@
             const video = document.querySelector('.video-wrap video');
             if (!video) return;
 
-            // 자동재생 세팅(보강)
-            video.setAttribute('playsinline', 'true');
-            video.setAttribute('webkit-playsinline', 'true');
+            // 속성과 별개로 "프로퍼티"도 강제 세팅 (중요!)
             video.muted = true;
             video.autoplay = true;
             video.loop = true;
+            video.setAttribute('playsinline', 'true');
+            video.setAttribute('webkit-playsinline', 'true');
 
-            const tryPlay = () => video.play().catch(()=>{});
+            const tryPlay = () => video.play().catch(err => {
+                console.log('play() 실패:', err && err.name, err && err.message);
+            });
+
+            // 1) 즉시 시도
             tryPlay();
 
-            // 첫 제스처에서 확실히 재생
+            // 2) 사용자 제스처 들어오면 재시도(모든 케이스 커버)
             const resumeOnce = () => { tryPlay(); cleanup(); };
-            const cleanup = () => ['touchstart','pointerdown','click'].forEach(ev =>
-                document.removeEventListener(ev, resumeOnce, { once:true })
-            );
-            ['touchstart','pointerdown','click'].forEach(ev =>
-                document.addEventListener(ev, resumeOnce, { once:true })
-            );
+            const cleanup = () => ['touchstart','pointerdown','click']
+                .forEach(ev => document.removeEventListener(ev, resumeOnce, { once:true }));
+            ['touchstart','pointerdown','click']
+                .forEach(ev => document.addEventListener(ev, resumeOnce, { once:true }));
 
-            // 포그라운드 복귀 시 재생 보장
+            // 3) 백그라운드 → 복귀 시 재시도
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) tryPlay();
             });
 
-            // 메타데이터 로드 후 실제 비율로 업데이트
-            if (video.readyState >= 1) setVideoAspectFromMeta();
-            else video.addEventListener('loadedmetadata', setVideoAspectFromMeta, { once: true });
+            // 4) 메타데이터 늦을 때 대비 (비율 계산도 이 시점이 안정적)
+            if (video.readyState < 1) {
+                video.addEventListener('loadedmetadata', () => {
+                    tryPlay();
+                    setVideoAspectFromMeta();
+                }, { once:true });
+            } else {
+                setVideoAspectFromMeta();
+            }
         });
     </script>
 </body>
