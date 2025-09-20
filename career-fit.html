@@ -50,10 +50,33 @@
             line-height: 0 !important;
             vertical-align: top !important;
             box-sizing: border-box;
+            /* GIF 렌더링 개선 */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            /* GPU 가속 비활성화 (GIF 깨짐 방지) */
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            will-change: auto;
         }
 
         .image-content:nth-child(2) {
             margin-top: -37.23px !important;
+        }
+
+        /* GIF 파일 전용 스타일링 */
+        img[src$=".gif"] {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            /* 브라우저 최적화 비활성화 */
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            -webkit-perspective: 1000;
+            /* 안티앨리어싱 비활성화 */
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
         }
 
         .video-wrap::before {
