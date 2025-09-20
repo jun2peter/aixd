@@ -102,6 +102,16 @@
             animation-delay: 0.8s;
             animation-duration: 3s;
         }
+        
+        #svg-container10 {
+            animation-delay: 0.9s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container11 {
+            animation-delay: 1.0s;
+            animation-duration: 3s;
+        }
 
         .svg-container img {
             max-width: 200px;
@@ -184,6 +194,16 @@
                 max-width: 120px;
                 max-height: 120px;
             }
+            
+            #svg-container10 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+            
+            #svg-container11 img {
+                max-width: 100px;
+                max-height: 100px;
+            }
         }
 
         /* 박승준 명함만 크기 키우기 */
@@ -208,6 +228,12 @@
         #svg-container4 img {
             max-width: 180px;
             max-height: 180px;
+        }
+
+        /* keep 명함 크기 설정 (다른 것보다 작게) */
+        #svg-container11 img {
+            max-width: 150px;
+            max-height: 150px;
         }
     </style>
 </head>
@@ -246,6 +272,14 @@
     
     <div id="svg-container9" class="svg-container">
         <img src="sno.svg" alt="sno명함" onclick="goToSnoverPage()">
+    </div>
+    
+    <div id="svg-container10" class="svg-container">
+        <img src="ga.svg" alt="ga명함" onclick="goToCachePage()">
+    </div>
+    
+    <div id="svg-container11" class="svg-container">
+        <img src="keep.svg" alt="keep명함" onclick="goToKeepYourMomentPage()">
     </div>
 
     <script>
@@ -342,6 +376,14 @@
         function goToSnoverPage() {
             window.location.href = 'snover.html';
         }
+        
+        function goToCachePage() {
+            window.location.href = 'cache.html';
+        }
+        
+        function goToKeepYourMomentPage() {
+            window.location.href = 'keepyourmoment.html';
+        }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
@@ -358,6 +400,8 @@
             getRandomPosition('svg-container7');
             getRandomPosition('svg-container8');
             getRandomPosition('svg-container9');
+            getRandomPosition('svg-container10');
+            getRandomPosition('svg-container11');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -370,6 +414,8 @@
                 document.getElementById('svg-container7').classList.add('visible');
                 document.getElementById('svg-container8').classList.add('visible');
                 document.getElementById('svg-container9').classList.add('visible');
+                document.getElementById('svg-container10').classList.add('visible');
+                document.getElementById('svg-container11').classList.add('visible');
             }, 100);
         });
         
@@ -385,6 +431,8 @@
             getRandomPosition('svg-container7');
             getRandomPosition('svg-container8');
             getRandomPosition('svg-container9');
+            getRandomPosition('svg-container10');
+            getRandomPosition('svg-container11');
             
             // 모든 명함을 동시에 보이게 함
             setTimeout(() => {
