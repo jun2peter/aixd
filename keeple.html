@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeple - 손아현</title>
+    <style>
+        /* 1) 기본 여백 리셋(문단/제목/리스트/figure/hr 등) */
+        body, h1,h2,h3,h4,h5,h6, p, ul, ol, li, figure, figcaption, hr, section, article {
+          margin: 0;
+        }
+        /* 2) 이미지/SVG 아래쪽 베이스라인 공백 제거 */
+        img, svg, canvas, video {
+          display: block;      /* 인라인 → 블록으로 */
+          max-width: 100%;
+          height: auto;
+        }
+        /* 3) 섹션 간 공백은 margin 대신 padding으로 제어 (마진 겹침 방지) */
+        .section {
+          padding: 24px 0;     /* 필요한 경우만 여백 주기 */
+        }
+        .section > :first-child { margin-top: 0; }
+        .section > :last-child  { margin-bottom: 0; }
+        /* 4) hr 기본 여백 제거(보이면) */
+        hr { margin: 0; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden; /* 가로 스크롤 완전히 차단 */
+            overflow-y: auto; /* 세로 스크롤 허용 */
+            /* 스크롤바 숨기기 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        /* 웹킷 브라우저용 스크롤바 숨기기 */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            background-color: white;
+        }
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .image-content {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            line-height: 0 !important;
+            vertical-align: top !important;
+            box-sizing: border-box;
+        }
+
+        .back-button {
+            position: fixed !important;
+            top: 20px !important;
+            left: 20px !important;
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            color: white !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            z-index: 99999 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        .back-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">← 뒤로가기</button>
+    
+    <div class="container">
+        <img src="손아현1.jpg" alt="손아현1" class="image-content">
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 키보드 ESC 키로도 뒤로가기 가능
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html>

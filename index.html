@@ -41,6 +41,7 @@
             animation-play-state: paused; /* 클릭 시 애니메이션 일시정지 */
         }
 
+
         /* 클릭 시 도망가는 애니메이션 */
         .svg-container.escape {
             animation: escape 0.5s ease-out forwards;
@@ -150,6 +151,11 @@
         
         #svg-container15 {
             animation-delay: 1.4s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container16 {
+            animation-delay: 1.5s;
             animation-duration: 3s;
         }
 
@@ -311,6 +317,10 @@
     
     <div id="svg-container15" class="svg-container">
         <img src="II.svg" alt="II명함" onclick="goToJingzhongdongPage()">
+    </div>
+    
+    <div id="svg-container16" class="svg-container">
+        <img src="kee.svg" alt="kee명함" onclick="goToKeeplePage()">
     </div>
 
     <script>
@@ -491,6 +501,14 @@
                 window.location.href = '靜中動.html';
             }, 500);
         }
+        
+        function goToKeeplePage() {
+            const container = document.getElementById('svg-container16');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'keeple.html';
+            }, 500);
+        }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
         window.addEventListener('load', function() {
@@ -513,6 +531,7 @@
             getRandomPosition('svg-container13');
             getRandomPosition('svg-container14');
             getRandomPosition('svg-container15');
+            getRandomPosition('svg-container16');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -531,6 +550,7 @@
                 document.getElementById('svg-container13').classList.add('visible');
                 document.getElementById('svg-container14').classList.add('visible');
                 document.getElementById('svg-container15').classList.add('visible');
+                document.getElementById('svg-container16').classList.add('visible');
             }, 100);
         });
         
@@ -552,6 +572,7 @@
             getRandomPosition('svg-container13');
             getRandomPosition('svg-container14');
             getRandomPosition('svg-container15');
+            getRandomPosition('svg-container16');
             
             // 모든 명함을 동시에 보이게 함
             setTimeout(() => {
@@ -570,6 +591,7 @@
                 document.getElementById('svg-container13').classList.add('visible');
                 document.getElementById('svg-container14').classList.add('visible');
                 document.getElementById('svg-container15').classList.add('visible');
+                document.getElementById('svg-container16').classList.add('visible');
             }, 50);
         });
     </script>
