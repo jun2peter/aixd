@@ -41,6 +41,26 @@
             animation-play-state: paused; /* 클릭 시 애니메이션 일시정지 */
         }
 
+        /* 클릭 시 도망가는 애니메이션 */
+        .svg-container.escape {
+            animation: escape 0.5s ease-out forwards;
+        }
+
+        @keyframes escape {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50px) rotate(180deg) scale(0.8);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
         /* 둥둥 떠다니는 애니메이션 */
         @keyframes float {
             0%, 100% {
@@ -331,63 +351,123 @@
         }
 
         function goToParkPage() {
-            window.location.href = '千一手千一眼.html';
+            const container = document.getElementById('svg-container1');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = '千一手千一眼.html';
+            }, 500);
         }
 
         function goToKimPage() {
-            window.location.href = 'facetodot.html';
+            const container = document.getElementById('svg-container2');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'facetodot.html';
+            }, 500);
         }
 
         function goToSoritPage() {
-            window.location.href = 'sorit.html';
+            const container = document.getElementById('svg-container3');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'sorit.html';
+            }, 500);
         }
 
         function goToCussemblePage() {
-            window.location.href = 'cussemble.html';
+            const container = document.getElementById('svg-container4');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'cussemble.html';
+            }, 500);
         }
         
         function goToDistortPage() {
-            window.location.href = 'distort.html';
+            const container = document.getElementById('svg-container5');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'distort.html';
+            }, 500);
         }
         
         function goToSenselPage() {
-            window.location.href = 'sensel.html';
+            const container = document.getElementById('svg-container6');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'sensel.html';
+            }, 500);
         }
         
         function goToFmxisAnastasisPage() {
-            window.location.href = 'fmxis-anastasis.html';
+            const container = document.getElementById('svg-container7');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'fmxis-anastasis.html';
+            }, 500);
         }
         
         function goToCareerFitPage() {
-            window.location.href = 'career-fit.html';
+            const container = document.getElementById('svg-container8');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'career-fit.html';
+            }, 500);
         }
         
         function goToSnoverPage() {
-            window.location.href = 'snover.html';
+            const container = document.getElementById('svg-container9');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'snover.html';
+            }, 500);
         }
         
         function goToCachePage() {
-            window.location.href = 'cache.html';
+            const container = document.getElementById('svg-container10');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'cache.html';
+            }, 500);
         }
         
         function goToKeepYourMomentPage() {
-            window.location.href = 'keepyourmoment.html';
+            const container = document.getElementById('svg-container11');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'keepyourmoment.html';
+            }, 500);
         }
         
         function goToTehePage() {
-            window.location.href = 'tehe.html';
+            const container = document.getElementById('svg-container12');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'tehe.html';
+            }, 500);
         }
         
         function goToUnknownPage() {
-            window.location.href = 'un-known.html';
+            const container = document.getElementById('svg-container13');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'un-known.html';
+            }, 500);
         }
         
         function goToInframePage() {
-            window.location.href = 'inframe.html';
+            const container = document.getElementById('svg-container14');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'inframe.html';
+            }, 500);
         }
         
         function goToJingzhongdongPage() {
-            window.location.href = '靜中動.html';
+            const container = document.getElementById('svg-container15');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = '靜中動.html';
+            }, 500);
         }
 
         // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
