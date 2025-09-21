@@ -40,14 +40,31 @@
             display: none;
         }
         body {
-            background-color: black;
+            background-color: white;
         }
         .container {
             width: 100%;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .image-content {
+            width: 100%;
+            height: auto;
             display: block;
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            line-height: 0 !important;
+            vertical-align: top !important;
+            box-sizing: border-box;
+            margin-top: -37.23px !important;
+            position: relative;
+            z-index: 2;
         }
         /* 비디오를 화면 폭에 정확히 맞추는 래퍼 */
         .video-wrap {
@@ -87,6 +104,7 @@
             -moz-media-controls: none;
             -o-media-controls: none;
             media-controls: none;
+            z-index: 1;
         }
         
         /* 비디오 컨트롤 완전 숨김 - 김동규2와 동일 */
@@ -221,6 +239,7 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+        <img src="이은서2.png" alt="이은서2" class="image-content">
     </div>
 
     <script>
