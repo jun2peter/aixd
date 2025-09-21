@@ -3,24 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensel 페이지</title>
+    <title>靜中動 - 박하경</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* 1) 기본 여백 리셋(문단/제목/리스트/figure/hr 등) */
+        body, h1,h2,h3,h4,h5,h6, p, ul, ol, li, figure, figcaption, hr, section, article {
+          margin: 0;
         }
+        /* 2) 이미지/SVG 아래쪽 베이스라인 공백 제거 */
+        img, svg, canvas, video {
+          display: block;      /* 인라인 → 블록으로 */
+          max-width: 100%;
+          height: auto;
+        }
+        /* 3) 섹션 간 공백은 margin 대신 padding으로 제어 (마진 겹침 방지) */
+        .section {
+          padding: 24px 0;     /* 필요한 경우만 여백 주기 */
+        }
+        .section > :first-child { margin-top: 0; }
+        .section > :last-child  { margin-bottom: 0; }
+        /* 4) hr 기본 여백 제거(보이면) */
+        hr { margin: 0; }
 
         html, body {
+            margin: 0;
+            padding: 0;
             width: 100%;
-            height: 100%;
+            overflow-x: hidden; /* 가로 스크롤 완전히 차단 */
             overflow-y: auto; /* 세로 스크롤 허용 */
-            overflow-x: hidden; /* 가로 스크롤 제거 */
             /* 스크롤바 숨기기 */
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE and Edge */
         }
-
         /* 웹킷 브라우저용 스크롤바 숨기기 */
         html::-webkit-scrollbar,
         body::-webkit-scrollbar {
@@ -40,7 +53,8 @@
         }
 
         .image-content,
-        .video-wrap {
+        .video-wrap,
+        .video-content {
             width: 100%;
             height: auto;
             display: block;
@@ -53,14 +67,33 @@
         }
 
         .video-wrap {
+            width: 100%;
             position: relative;
+            margin: 0;
+            padding: 0;
+            display: block; /* 블록 요소로 변환 */
         }
 
-        .video-wrap > video {
-            width: 100%;
-            height: auto;
-            display: block;
+        .video-wrap > iframe {
+            display: block; /* iframe도 블록 요소로 변환 */
         }
+
+        .video-wrap::before {
+            content: "";
+            display: block;
+            padding-top: 56.25%; /* 16:9 비율 */
+        }
+
+        .video-wrap > iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block; /* 블록 요소로 변환 */
+        }
+
         .back-button {
             position: fixed !important;
             top: 20px !important;
@@ -86,22 +119,24 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="박하경1.jpg" alt="박하경1" class="image-content">
+        <img src="박하경(1)_1.jpg" alt="박하경(1)_1" class="image-content">
+        
         <div class="video-wrap">
-            <video src="박하경2.mp4" controls preload="metadata"></video>
+            <iframe src="https://www.youtube.com/embed/DL5l5hEi7OY" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
         </div>
-        <img src="박하경3.jpg" alt="박하경3" class="image-content">
+        
+        <img src="박하경(1)_3.jpg" alt="박하경(1)_3" class="image-content">
     </div>
 
     <script>
         function goBack() {
             window.location.href = 'index.html';
         }
-
-        // 페이지 로드 시 맨 위로 스크롤
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 0);
-        });
 
         // 키보드 ESC 키로도 뒤로가기 가능
         document.addEventListener('keydown', function(event) {
@@ -110,20 +145,6 @@
             }
         });
 
-        // 비디오 자동재생 차단
-        document.addEventListener('DOMContentLoaded', function() {
-            const videos = document.querySelectorAll('video');
-            
-            videos.forEach(video => {
-                // 자동재생 완전 차단
-                video.autoplay = false;
-                video.loop = false;
-                video.muted = false;
-                video.controls = true;
-                video.pause(); // 강제로 일시정지
-                video.currentTime = 0; // 처음으로 되돌리기
-            });
-        });
     </script>
 </body>
 </html>
