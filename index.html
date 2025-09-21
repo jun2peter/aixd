@@ -190,10 +190,14 @@
                 will-change: auto; /* 애니메이션 최적화 */
             }
             
-            /* 모바일에서 박승준 명함만 조금 더 크게 */
+            /* 모바일에서 박승준 명함 크기 키우기 */
             #svg-container1 img {
-                width: 100px;
+                width: 150px;
                 height: auto;
+                image-rendering: auto;
+                image-rendering: optimizeQuality;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
         }
 
