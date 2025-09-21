@@ -199,6 +199,12 @@
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
             }
+            
+            /* 모바일에서 keep 명함 크기 줄이기 */
+            #svg-container11 img {
+                width: 60px;
+                height: auto;
+            }
         }
 
         @media screen and (min-width: 769px) {
@@ -228,8 +234,8 @@
 
             /* keep 명함 크기 설정 (다른 것보다 작게) */
             #svg-container11 img {
-                max-width: 150px;
-                max-height: 150px;
+                max-width: 120px;
+                max-height: 120px;
             }
         }
     </style>
