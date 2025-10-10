@@ -52,25 +52,21 @@
             box-sizing: border-box;
         }
 
-        .video-wrap::before {
-            content: "";
-            display: block;
+        /* 유튜브 비디오 래퍼 */
+        .video-wrap {
+            position: relative;
+            width: 100%;
             padding-top: 56.25%; /* 16:9 비율 */
+            overflow: hidden;
         }
 
-        .video-wrap > video {
+        .video-wrap iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block; /* 블록 요소로 변환 */
-            /* 비디오 컨트롤 숨김 */
-            -webkit-media-controls: none;
-            -moz-media-controls: none;
-            -o-media-controls: none;
-            media-controls: none;
+            border: none;
         }
         .back-button {
             position: fixed !important;
@@ -97,7 +93,23 @@
     <button class="back-button" onclick="goBack()">← 뒤로가기</button>
     
     <div class="container">
-        <img src="승효은.jpg" alt="승효은" class="image-content">
+        <img src="승효은1.jpg" alt="승효은1" class="image-content">
+        
+        <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/20IqkBgb-SI" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+        
+        <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/UDrJvxUjjjs" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+        
+        <img src="승효은2.jpg" alt="승효은2" class="image-content">
     </div>
 
     <script>
